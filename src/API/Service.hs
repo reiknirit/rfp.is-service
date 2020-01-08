@@ -6,17 +6,18 @@
 module API.Service where
 
 import Servant
-import Control.Monad.IO.Class      (MonadIO)
+import Control.Monad.IO.Class       (MonadIO)
 
-import Config                      (AppT (..))
+import API.Attachment               (AttachmentAPI
+                                    ,attachmentServer)
+import API.Submission               (SubmissionAPI
+                                    ,submissionServer)
+import Config                       (AppT (..))
 
-type ServiceAPI = "test" :> Get '[JSON] String
+type ServiceAPI = AttachmentAPI :<|> SubmissionAPI
 
 serviceAPI :: Proxy ServiceAPI
 serviceAPI = Proxy
 
 serviceServer :: MonadIO m => ServerT ServiceAPI (AppT m)
-serviceServer = testEndpoint
-
-testEndpoint :: MonadIO m => AppT m String
-testEndpoint = return "Hello World"
+serviceServer = attachmentServer :<|> submissionServer

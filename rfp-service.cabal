@@ -1,0 +1,101 @@
+cabal-version: 3.0
+
+-- This file has been generated from package.yaml by hpack version 0.32.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 6a3066e60b747caffb4d137699657d71f8369b5cc1a6b8071bc0ce0a801e1330
+
+name:           rfp-service
+version:        0.0.0.1
+synopsis:       RFPService service
+description:    RFPService Service
+category:       Web
+author:         Thordur Hermannsson <doddi@kott.is>
+maintainer:     Thordur Hermannsson <doddi@kott.is>
+copyright:      2018 Thordur Hermannsson
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+
+source-repository head
+  type: git
+  location: https://www.gitlab.com/K0TT/rfp-service
+
+library
+  exposed-modules:
+      Config
+      Models
+      API
+      API.Service
+      API.Attachment
+      API.Submission
+      Elasticsearch
+      Utils
+      Logger
+  other-modules:
+      Paths_rfp_service
+  hs-source-dirs:
+      src
+  ghc-options: -fwarn-unused-imports
+  build-depends:
+      aeson
+    , base >=4.9 && <5.0
+    , bloodhound ==0.16.0.0
+    , bytestring
+    , containers
+    , directory
+    , dotenv
+    , fast-logger
+    , filepath
+    , hip
+    , hslogger
+    , http-client
+    , http-types
+    , monad-control
+    , monad-logger
+    , mtl
+    , parser-combinators
+    , persistent ==2.9.2
+    , persistent-postgresql
+    , persistent-template ==2.6.0
+    , safe
+    , servant
+    , servant-multipart
+    , servant-server
+    , text
+    , time
+    , transformers
+    , unordered-containers
+    , uuid
+    , wai
+    , wai-cors
+    , wai-extra
+    , warp
+  default-language: Haskell2010
+
+executable rfp-service
+  main-is: Main.hs
+  other-modules:
+      Paths_rfp_service
+  hs-source-dirs:
+      app
+  ghc-options: -fwarn-unused-imports
+  build-depends:
+      base >=4.9 && <5.0
+    , dotenv
+    , fast-logger
+    , hslogger
+    , http-types
+    , monad-logger
+    , mtl
+    , persistent ==2.9.2
+    , persistent-postgresql
+    , persistent-template ==2.6.0
+    , rfp-service
+    , safe
+    , wai
+    , wai-cors
+    , wai-extra
+    , warp
+  default-language: Haskell2010

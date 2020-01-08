@@ -29,6 +29,8 @@ library:
   - Models
   - API
   - API.Service
+  - API.Attachment
+  - API.Submission
   - Elasticsearch
   - Utils
   - Logger
@@ -42,6 +44,7 @@ library:
   - monad-control
   - monad-logger
   - servant
+  - servant-multipart
   - servant-server
   - transformers
   - wai
@@ -52,6 +55,11 @@ library:
   - unordered-containers
   - time
   - safe
+  - uuid
+  - hip
+  - filepath
+  - parser-combinators
+  - directory
 executables:
   rfp-service:
     main: Main.hs

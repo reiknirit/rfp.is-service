@@ -23,8 +23,28 @@ import Database.Persist.TH      (mkMigrate, mkPersist, persistLowerCase,
 import Config                   (Config, configPool)
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
-RFPService json
-    deriving Show Eq
+Attachment json
+    name      Text
+    src       Text
+    thumbnail Text Maybe
+    createdAt UTCTime
+    updatedAt UTCTime Maybe
+
+Submission json
+    fullName    Text
+    pronoun     Text Maybe
+    refund      Bool
+    airport     Text Maybe
+    title       Text Maybe
+    abstract    Text Maybe
+    bio         Text
+    comment     Text Maybe
+    email       Text
+    phoneNumber Text
+    website     Text Maybe
+    attachments [AttachmentId]
+    createdAt   UTCTime
+    updatedAt   UTCTime Maybe
 |]
 
 doMigrations :: SqlPersistT IO ()
