@@ -16,13 +16,13 @@ If your version is less than 3.0 then you need to update Cabal with the followin
 
 ### Running the API 
 
-To run the api start by building it to get the mms-service executable
+To run the api start by building it to get the rfp-service executable
 
     cabal new-build --reorder-goals
 
 Then run it with the following command
 
-    cabal new-exec mms-service --reorder-goals
+    cabal new-exec rfp-service --reorder-goals
 
 
 ### Env variables
