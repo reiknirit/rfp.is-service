@@ -38,3 +38,5 @@ cabal.sandbox.config
 certs
 
 logs
+
+dist-newstyle/
