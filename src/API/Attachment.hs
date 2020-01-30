@@ -56,48 +56,49 @@ attachmentServer :: MonadIO m => ServerT AttachmentAPI (AppT m)
 attachmentServer = uploadAttachment
 
 isImage :: T.Text -> Bool
-isImage txt = elem extension imageCases
+isImage txt = elem extension attachmentCases
     where
         extension = takeExtensions $ T.unpack txt
-        imageCases = [".png",".jpg", ".jpeg", ".webp"]
+        attachmentCases = [".png",".jpg", ".jpeg", ".webp"]
 
 uploadAttachment :: MonadIO m 
                  => Attachment
                  -> AppT m (Maybe (Entity Attachment))
 uploadAttachment attachment = do
+    -- Get currentTime for create UTCTime
     currentTime <- liftIO getCurrentTime
+    -- Get full filename with static path
     let fileName = T.pack filePath <> attachmentName attachment
+    -- Check if file already exists
     fileExists <- liftIO $ doesFileExist (T.unpack fileName)
-    tmpFileExists <- liftIO $ doesFileExist (T.unpack $ attachmentSrc attachment)
-    finalName <-
+    finalName
+        -- | If file exists we create a new path
+        --   appending a unique uuid string to the filename
+         <-
         case fileExists of
             True -> do
                 uuid <- liftIO nextRandom
                 let uuidStr = toString uuid
-                let fnBase = takeBaseName (T.unpack fileName)
-                let ext = takeExtensions (T.unpack fileName)
-                return $ T.pack $ filePath ++ fnBase ++ uuidStr ++ ext
+                    fnBase = takeBaseName (T.unpack fileName)
+                    ext = takeExtensions (T.unpack fileName)
+                    final = T.pack $ filePath ++ fnBase ++ uuidStr ++ ext
+                return final
             False -> return fileName
-    tmpFileExists2 <- liftIO $ doesFileExist (T.unpack $ attachmentSrc attachment)
+    -- Get only the filename
     let onlyName = T.pack (takeFileName $ T.unpack finalName)
+    -- Rename the temporary upload file to final destination
     liftIO $
-        renameFile (T.unpack $ attachmentSrc attachment) ("static/" <> T.unpack onlyName)
-    -- process attachment and create thumbnail if image
-    thumbnail <- case isImage finalName of
-                   True -> do
-                       thumb <- liftIO $ processImage finalName
-                       return $ Just thumb
-                   False -> return Nothing
-    let 
-        finalThumb = case thumbnail of
-                       Just t -> Just $ T.replace "static/" "static/uploads/" t
-                       Nothing -> Nothing
-        attach =
+        renameFile (T.unpack $ attachmentSrc attachment) (filePath <> T.unpack onlyName)
+    -- process attachment and create thumbnail
+    -- Disabling this for now since we are receiving
+    -- attachments meaning (pdf, .docx etc) and 
+    -- not only profile images
+    -- thumbnail <- liftIO $ processImage finalName
+    let attach =
             attachment
-                { attachmentSrc = finalName
-                , attachmentName = onlyName
-                , attachmentThumbnail = finalThumb
+                { attachmentName = onlyName
+                , attachmentSrc = finalName
                 , attachmentCreatedAt = currentTime
                 }
-    dbKey <- runDb $ insert attach
-    return $ Just $ Entity dbKey attach
+    dbImage <- runDb $ insert attach
+    return $ Just $ Entity dbImage attach

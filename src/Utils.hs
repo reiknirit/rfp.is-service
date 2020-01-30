@@ -39,7 +39,7 @@ lookupSetting env def = do
 processImage :: T.Text -> IO T.Text
 processImage path = do
     now <- getCurrentTime
-    let realPath = T.replace "uploads/" "" path
+    let realPath = path
     img <- Hip.readImageRGB GIV.VU $ T.unpack realPath
     let width = Hip.cols img
         height = Hip.rows img
@@ -67,8 +67,12 @@ processImage path = do
                 return
                     ( (floor newHeight, floor newWidth)
                     , (floor thumbnailHeight, floor thumbnailWidth))
-    Hip.writeImage (T.unpack realPath) $
-        GIMP.resize GIMP.Bilinear GIMP.Edge fullScale img
+    let ext = takeExtension $ T.unpack realPath
+    case ext of
+        ".gif" -> pure ()
+        _ ->
+            Hip.writeImage (T.unpack realPath) $
+            GIMP.resize GIMP.Bilinear GIMP.Edge fullScale img
     Hip.writeImage thumbnailPath $
         GIMP.resize GIMP.Bilinear GIMP.Edge thumbnailScale img
     return $ T.pack thumbnailPath

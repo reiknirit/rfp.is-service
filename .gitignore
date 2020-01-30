@@ -40,3 +40,5 @@ certs
 logs
 
 dist-newstyle/
+
+static/
