@@ -25,6 +25,15 @@ Then run it with the following command
     cabal new-exec rfp-service --reorder-goals
 
 
+### THINGS TO NOTE
+
+The static path is static/uploads. This folder is omitted
+from the repository since we don't want to store arbitrary
+static files within the repo. When first running this project
+you must create this folder if you want the upload to work properly. At the root of this project simply do
+
+    mkdir static/uploads
+
 ### Env variables
 
 **ENV**
