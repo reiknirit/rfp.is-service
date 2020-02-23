@@ -1,15 +1,13 @@
 name: rfp-service
-version: '0.0.2.0'
-verbatim: 
-  cabal-version: 3.0
+version: '0.0.3.0'
 synopsis: RFPService service
 description: RFPService Service
 category: Web
-author: Thordur Hermannsson <doddi@kott.is>
-maintainer: Thordur Hermannsson <doddi@kott.is>
-copyright: 2018 Thordur Hermannsson
+author: RFP <doddi@kott.is>
+maintainer: RFP <doddi@kott.is>
+copyright: 2020 RFP
 license: MIT
-git: https://www.gitlab.com/K0TT/rfp-service
+git: https://www.gitlab.com/reiknirit/rfp-service
 dependencies:
 - persistent ==2.9.2
 - persistent-template ==2.6.0
@@ -37,7 +35,7 @@ library:
   dependencies:
   - base >=4.9 && <5.0
   - aeson
-  - bloodhound ==0.16.0.0
+  - bloodhound
   - bytestring
   - http-client
   - http-types

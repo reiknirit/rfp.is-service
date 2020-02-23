@@ -71,19 +71,17 @@ uploadAttachment attachment = do
     let fileName = T.pack filePath <> attachmentName attachment
     -- Check if file already exists
     fileExists <- liftIO $ doesFileExist (T.unpack fileName)
-    finalName
-        -- | If file exists we create a new path
-        --   appending a unique uuid string to the filename
-         <-
-        case fileExists of
-            True -> do
-                uuid <- liftIO nextRandom
-                let uuidStr = toString uuid
-                    fnBase = takeBaseName (T.unpack fileName)
-                    ext = takeExtensions (T.unpack fileName)
-                    final = T.pack $ filePath ++ fnBase ++ uuidStr ++ ext
-                return final
-            False -> return fileName
+    finalName <- case fileExists of
+        -- If file exists we create a new path
+        -- appending a unique uuid string to the filename
+        True -> do
+            uuid <- liftIO nextRandom
+            let uuidStr = toString uuid
+                fnBase = takeBaseName (T.unpack fileName)
+                ext = takeExtensions (T.unpack fileName)
+                final = T.pack $ filePath ++ fnBase ++ uuidStr ++ ext
+            return final
+        False -> return fileName
     -- Get only the filename
     let onlyName = T.pack (takeFileName $ T.unpack finalName)
     -- Rename the temporary upload file to final destination

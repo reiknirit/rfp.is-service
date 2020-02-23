@@ -1,26 +1,26 @@
-cabal-version: 3.0
+cabal-version: 1.12
 
 -- This file has been generated from package.yaml by hpack version 0.32.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 6a3066e60b747caffb4d137699657d71f8369b5cc1a6b8071bc0ce0a801e1330
+-- hash: 177bc3333b2336ad1a1c546d72a80b5c144ab44378206b24cec6401641761d18
 
 name:           rfp-service
-version:        0.0.0.1
+version:        0.0.3.0
 synopsis:       RFPService service
 description:    RFPService Service
 category:       Web
-author:         Thordur Hermannsson <doddi@kott.is>
-maintainer:     Thordur Hermannsson <doddi@kott.is>
-copyright:      2018 Thordur Hermannsson
+author:         RFP <doddi@kott.is>
+maintainer:     RFP <doddi@kott.is>
+copyright:      2020 RFP
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple
 
 source-repository head
   type: git
-  location: https://www.gitlab.com/K0TT/rfp-service
+  location: https://www.gitlab.com/reiknirit/rfp-service
 
 library
   exposed-modules:
@@ -41,7 +41,7 @@ library
   build-depends:
       aeson
     , base >=4.9 && <5.0
-    , bloodhound ==0.16.0.0
+    , bloodhound
     , bytestring
     , containers
     , directory

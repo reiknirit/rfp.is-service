@@ -21,7 +21,7 @@ import           Network.Wai                          (Middleware)
 import           Network.Wai.Middleware.RequestLogger (logStdoutDev)
 import           Servant.Server                       (ServerError)
 import           System.Environment                   (lookupEnv)
-import           Database.V5.Bloodhound               (BHEnv, Server(..), mkBHEnv)
+import           Database.Bloodhound               (BHEnv, Server(..), mkBHEnv)
 import qualified Data.Text                            as T
 import qualified Data.ByteString.Char8                as BS
 

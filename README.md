@@ -6,24 +6,22 @@ rfp-service
 This service runs on Haskell which requires you to install the Haskell platform as well as Cabal, Haskell's package manager. The easiest way to achieve this is through ghcup.
 Check out installation instructions [here](https://github.com/haskell/ghcup#installation)
 
-This project uses Cabal version > 3.0. Once Cabal is installed verify the version with the following command
+Once cabal is installed run
 
-    cabal --version
-
-If your version is less than 3.0 then you need to update Cabal with the following command
-
-    cabal install cabal-install-3.0.0.0
+    cabal configure && cabal build
 
 ### Running the API 
 
-To run the api start by building it to get the rfp-service executable
+    cabal exec rfp-service
 
-    cabal new-build --reorder-goals
+### Building with Nix
 
-Then run it with the following command
+    nix-build release.nix 
 
-    cabal new-exec rfp-service --reorder-goals
+Once nix-build is finished you can run the API
+with the binary located in ./result
 
+    ./result/bin/rfp-service
 
 ### THINGS TO NOTE
 
