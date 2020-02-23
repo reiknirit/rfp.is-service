@@ -25,12 +25,9 @@ with the binary located in ./result
 
 ### THINGS TO NOTE
 
-The static path is static/uploads. This folder is omitted
-from the repository since we don't want to store arbitrary
-static files within the repo. When first running this project
-you must create this folder if you want the upload to work properly. At the root of this project simply do
+Two folders are excluded from git since we don't want to share their content. After cloning this repo run the following command at the root of the project. 
 
-    mkdir static/uploads
+    mkdir -p static/uploads logs
 
 ### Env variables
 
