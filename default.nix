@@ -1,13 +1,14 @@
-{ pkgs ? import ./packages.nix {}, mkDerivation, aeson, base, bloodhound, bytestring, containers
-, directory, dotenv, fast-logger, filepath, hip, hpack, hslogger
-, http-client, http-types, monad-control, monad-logger, mtl
-, parser-combinators, persistent, persistent-postgresql
-, persistent-template, safe, servant, servant-multipart
-, servant-server, stdenv, text, time, transformers
-, unordered-containers, uuid, wai, wai-cors, wai-extra, warp
+{ pkgs ? import ./packages.nix {}, mkDerivation, aeson, base, base64-bytestring, bcrypt, bloodhound
+, bytestring, containers, directory, dotenv, fast-logger, filepath
+, hip, hpack, hslogger, http-client, http-types, monad-control
+, monad-logger, mtl, optparse-applicative, parser-combinators
+, persistent, persistent-postgresql, persistent-template, safe
+, servant, servant-multipart, servant-server, stdenv, text, time
+, transformers, unordered-containers, utf8-string, uuid, wai
+, wai-cors, wai-extra, warp
 }:
 let 
-    gitignoreSrc = pkgs.fetchFromGitHub { 
+  gitignoreSrc = pkgs.fetchFromGitHub { 
     owner = "hercules-ci";
     repo = "gitignore.nix";
     # put the latest commit sha of gitignore Nix library here:
@@ -19,12 +20,12 @@ let
 in
   mkDerivation {
     pname = "rfp-service";
-    version = "0.0.4.1";
+    version = "0.0.4.2";
     src = gitignoreSource ./.;
     isLibrary = true;
     isExecutable = true;
     libraryHaskellDepends = [
-      aeson base bloodhound bytestring containers directory dotenv
+      aeson base bcrypt bloodhound bytestring containers directory dotenv
       fast-logger filepath hip hslogger http-client http-types
       monad-control monad-logger mtl parser-combinators persistent
       persistent-postgresql persistent-template safe servant
@@ -33,8 +34,9 @@ in
     ];
     libraryToolDepends = [ hpack ];
     executableHaskellDepends = [
-      base dotenv fast-logger hslogger http-types monad-logger mtl
-      persistent persistent-postgresql persistent-template safe wai
+      base base64-bytestring bytestring dotenv fast-logger hslogger
+      http-types monad-logger mtl optparse-applicative persistent
+      persistent-postgresql persistent-template text time utf8-string wai
       wai-cors wai-extra warp
     ];
     prePatch = "hpack";

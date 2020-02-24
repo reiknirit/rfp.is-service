@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 517fd15ba7bd6ca4d456d803a7232000fe99e77250efc15ddc0db50b3fc4718d
+-- hash: 07a0a0aa3cfc9325d85b9a96c6fbf0b1c7ab91e2ea02f1eb7eca821887b331e8
 
 name:           rfp-service
-version:        0.0.4.1
+version:        0.0.4.2
 synopsis:       RFPService service
 description:    RFPService Service
 category:       Web
