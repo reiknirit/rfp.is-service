@@ -92,8 +92,41 @@ User json
     deriving Show Eq Generic
 |]
 
+data SubmissionJSON = 
+    SubmissionJSON
+    (Entity Submission)
+    [Entity Attachment]
+
+instance ToJSON SubmissionJSON where
+    toJSON (SubmissionJSON submission attachments) = 
+        object [ "id" .= (fromSqlKey $ entityKey submission) 
+               , "fullName" .= (submissionFullName $ entityVal submission)
+               , "pronoun" .= (submissionPronoun $ entityVal submission)
+               , "refund"  .= (submissionRefund $ entityVal submission)
+               , "airport" .= (submissionAirport $ entityVal submission)
+               , "title"   .= (submissionTitle $ entityVal submission)
+               , "abstract" .= (submissionAbstract $ entityVal submission)
+               , "bio" .= (submissionBio $ entityVal submission)
+               , "comment" .= (submissionComment $ entityVal submission)
+               , "email" .= (submissionEmail $ entityVal submission)
+               , "phoneNumber" .= (submissionPhoneNumber $ entityVal submission)
+               , "website" .= (submissionWebsite $ entityVal submission)
+               , "attachments" .= attachments
+               , "createdAt" .= (submissionCreatedAt $ entityVal submission)
+               , "updatedAt" .= (submissionUpdatedAt $ entityVal submission)
+               ]
+
 doMigrations :: SqlPersistT IO ()
 doMigrations = runMigration migrateAll
+
+subToSubJSON :: MonadIO m 
+             => Entity Submission 
+             -> AppT m SubmissionJSON
+subToSubJSON sub = do
+    let
+      attachmentIds = submissionAttachments $ entityVal sub
+    attachments <- runDb $ selectList [ AttachmentId <-. attachmentIds ] []
+    return $SubmissionJSON sub attachments
 
 createUser :: Config 
            -> User

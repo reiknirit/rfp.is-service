@@ -19,7 +19,7 @@ let
 in
   mkDerivation {
     pname = "rfp-service";
-    version = "0.0.4.0";
+    version = "0.0.4.1";
     src = gitignoreSource ./.;
     isLibrary = true;
     isExecutable = true;

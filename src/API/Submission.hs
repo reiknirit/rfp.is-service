@@ -31,12 +31,13 @@ import Config                       (AppT (..))
 type SubmissionAPI = BasicAuth "user-auth" User :> 
                     "submissions" :>
                      ReqBody '[JSON] Submission :>
-                     Post '[JSON] (Maybe (Entity Submission))
+                     Post '[JSON] (Maybe SubmissionJSON)
 
 submissionServer :: MonadIO m => ServerT SubmissionAPI (AppT m)
 submissionServer (user :: User) = createSubmission
 
-createSubmission :: MonadIO m => Submission -> AppT m (Maybe (Entity Submission))
+createSubmission :: MonadIO m => Submission -> AppT m (Maybe SubmissionJSON)
 createSubmission sub = do
     newSub <- runDb $ insert sub
-    return $ Just $ Entity newSub sub
+    json <- subToSubJSON $ Entity newSub sub
+    return $ Just json
