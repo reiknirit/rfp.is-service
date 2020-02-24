@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 177bc3333b2336ad1a1c546d72a80b5c144ab44378206b24cec6401641761d18
+-- hash: 9a2266dbf85cd742b7bce272029d5fc0ade75848ce00b337019af7aa638fa632
 
 name:           rfp-service
-version:        0.0.3.0
+version:        0.0.4.0
 synopsis:       RFPService service
 description:    RFPService Service
 category:       Web
@@ -30,6 +30,7 @@ library
       API.Service
       API.Attachment
       API.Submission
+      API.User
       Elasticsearch
       Utils
       Logger
@@ -41,6 +42,7 @@ library
   build-depends:
       aeson
     , base >=4.9 && <5.0
+    , bcrypt
     , bloodhound
     , bytestring
     , containers
@@ -77,23 +79,29 @@ library
 executable rfp-service
   main-is: Main.hs
   other-modules:
+      Cli
       Paths_rfp_service
   hs-source-dirs:
       app
   ghc-options: -fwarn-unused-imports
   build-depends:
       base >=4.9 && <5.0
+    , base64-bytestring
+    , bytestring
     , dotenv
     , fast-logger
     , hslogger
     , http-types
     , monad-logger
     , mtl
+    , optparse-applicative
     , persistent ==2.9.2
     , persistent-postgresql
     , persistent-template ==2.6.0
     , rfp-service
-    , safe
+    , text
+    , time
+    , utf8-string
     , wai
     , wai-cors
     , wai-extra

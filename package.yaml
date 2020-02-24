@@ -1,5 +1,5 @@
 name: rfp-service
-version: '0.0.3.0'
+version: '0.0.4.0'
 synopsis: RFPService service
 description: RFPService Service
 category: Web
@@ -19,6 +19,8 @@ dependencies:
 - hslogger
 - fast-logger
 - http-types
+- text
+- time
 library:
   source-dirs: src
   ghc-options: -fwarn-unused-imports
@@ -29,6 +31,7 @@ library:
   - API.Service
   - API.Attachment
   - API.Submission
+  - API.User
   - Elasticsearch
   - Utils
   - Logger
@@ -51,13 +54,13 @@ library:
   - containers
   - fast-logger
   - unordered-containers
-  - time
   - safe
   - uuid
   - hip
   - filepath
   - parser-combinators
   - directory
+  - bcrypt
 executables:
   rfp-service:
     main: Main.hs
@@ -69,4 +72,7 @@ executables:
     - wai
     - warp
     - monad-logger
-    - safe
+    - optparse-applicative
+    - utf8-string
+    - bytestring
+    - base64-bytestring

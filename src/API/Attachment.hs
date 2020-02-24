@@ -3,6 +3,7 @@
 {-# LANGUAGE OverloadedStrings      #-}
 {-# LANGUAGE TypeOperators          #-}
 {-# LANGUAGE MultiParamTypeClasses  #-}
+{-# LANGUAGE ScopedTypeVariables    #-}
 
 module API.Attachment where
 
@@ -30,6 +31,7 @@ import Database.Persist.Postgresql      (Entity(..)
                                         ,toSqlKey
                                         ,updateGet)
 import Servant
+import Servant.Server 
 import Servant.Multipart
 import System.Directory                 (doesFileExist, renameFile)
 import System.FilePath.Posix            (takeBaseName
@@ -48,6 +50,7 @@ instance FromMultipart Tmp Attachment where
         (optional Nothing)
 
 type AttachmentAPI = MultipartForm Tmp Attachment :> 
+                     BasicAuth "user-auth" User :> 
                      "attachments" :> 
                      "upload" :> 
                      Post '[JSON] (Maybe (Entity Attachment))
@@ -63,8 +66,9 @@ isImage txt = elem extension attachmentCases
 
 uploadAttachment :: MonadIO m 
                  => Attachment
+                 -> User
                  -> AppT m (Maybe (Entity Attachment))
-uploadAttachment attachment = do
+uploadAttachment attachment user = do
     -- Get currentTime for create UTCTime
     currentTime <- liftIO getCurrentTime
     -- Get full filename with static path

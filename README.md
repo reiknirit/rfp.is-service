@@ -10,9 +10,32 @@ Once cabal is installed run
 
     cabal configure && cabal build
 
-### Running the API 
+### Commands
 
-    cabal exec rfp-service
+**run**
+
+Run API server. Optional port number
+    
+    run [-p|--port] 
+
+Example
+
+    -- Run server on port 8080
+    cabal exec rfp-service run -- -p 8080
+    
+**createuser**
+
+Create a user. If the -a --admin flag is present
+a API key is created and can be used for API
+POST / DELETE methods.
+
+    createuser (-u|--username ARG) (-p|--password ARG)
+               [-e|--email ARG] [-a|--admin]
+
+Example
+
+    -- Create admin user with username=server password=servant
+    cabal exec rfp-service createuser -- -u server -p servant -a
 
 ### Building with Nix
 
