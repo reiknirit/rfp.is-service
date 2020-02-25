@@ -20,6 +20,8 @@
         in rec {
           haskellPackages = pkgs.haskellPackages.override {
             overrides = self: super: {
+              hworker = dontAndDisable super.hworker;
+              sendgrid-v3 = dontAndDisable super.sendgrid-v3;
               bloodhound = dontAndDisable 
                 (self.callCabal2nix "bloodhound" (builtins.fetchGit {
                   url = "https://github.com/naglalakk/bloodhound";

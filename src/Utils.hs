@@ -2,21 +2,20 @@
 
 module Utils where
 
-import qualified Data.Text as T
-import Data.Time (getCurrentTime)
-import qualified Graphics.Image as Hip
-import qualified Graphics.Image.IO as GIO
-import qualified Graphics.Image.Interface.Vector as GIV
-import qualified Graphics.Image.Processing as GIMP
-import System.Environment (lookupEnv)
-import System.FilePath.Posix
-    ( FilePath
-    , takeDirectory
-    , takeExtension
-    , takeFileName
-    )
-
-import Safe (readMay)
+import 		 Data.List.NonEmpty                 (fromList)
+import qualified Data.Text                          as T
+import           Data.Time                          (getCurrentTime)
+import qualified Graphics.Image                     as Hip
+import qualified Graphics.Image.IO                  as GIO
+import qualified Graphics.Image.Interface.Vector    as GIV
+import qualified Graphics.Image.Processing          as GIMP
+import           Network.SendGridV3.Api
+import           System.Environment                 (lookupEnv)
+import           System.FilePath.Posix              (FilePath
+                                                    ,takeDirectory
+                                                    ,takeExtension
+                                                    ,takeFileName)
+import Safe                                         (readMay)
 
 -- | Looks up a setting in the environment, with a provided default, and
 -- 'read's that information into the inferred type.
@@ -76,3 +75,18 @@ processImage path = do
     Hip.writeImage thumbnailPath $
         GIMP.resize GIMP.Bilinear GIMP.Edge thumbnailScale img
     return $ T.pack thumbnailPath
+
+sendEmail :: T.Text  -- ^ ApiKey
+          -> T.Text  -- ^ from
+          -> T.Text  -- ^ to
+          -> T.Text  -- ^ subject
+          -> T.Text  -- ^ content
+          -> IO Int
+sendEmail sendGridApiKey fromAddr toAddr subject mailContent = do
+    let 
+      to = personalization $ fromList [MailAddress toAddr ""]
+      from = MailAddress fromAddr ""
+      content = fromList [mailContentText mailContent]
+      apiKey = ApiKey sendGridApiKey
+      message = (mail [to] from subject content) :: Mail () ()
+    sendMail apiKey message

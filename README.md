@@ -37,6 +37,14 @@ Example
     -- Create admin user with username=server password=servant
     cabal exec rfp-service createuser -- -u server -p servant -a
 
+### RFP Worker 
+
+A worker runs separately to handle email jobs etc. 
+Make sure you have a redis is running on port 6379 
+and then start the worker with
+
+    cabal exec rfp-worker
+
 ### Building with Nix
 
     nix-build release.nix 
@@ -86,3 +94,7 @@ Postgres password
 **PGDATABASE**
 
 Postgres database
+
+SENDGRID_API_KEY
+
+Sendgrid API Key. This key needs to be present when running the RFPWorker to send out emails. 

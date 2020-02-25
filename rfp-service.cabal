@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 07a0a0aa3cfc9325d85b9a96c6fbf0b1c7ab91e2ea02f1eb7eca821887b331e8
+-- hash: 3f2119d9cdf94f4b8f5c735cee1eace959edcf7e88987687fb18694dd949a908
 
 name:           rfp-service
-version:        0.0.4.2
+version:        0.0.5.0
 synopsis:       RFPService service
 description:    RFPService Service
 category:       Web
@@ -31,10 +31,14 @@ library
       API.Attachment
       API.Submission
       API.User
+      Cli
       Elasticsearch
       Utils
       Logger
+      Worker.Base
+      Worker.RFPWorker
   other-modules:
+      Cache
       Paths_rfp_service
   hs-source-dirs:
       src
@@ -50,18 +54,22 @@ library
     , dotenv
     , fast-logger
     , filepath
+    , hedis
     , hip
     , hslogger
     , http-client
     , http-types
+    , hworker
     , monad-control
     , monad-logger
     , mtl
+    , optparse-applicative
     , parser-combinators
     , persistent ==2.9.2
     , persistent-postgresql
     , persistent-template ==2.6.0
     , safe
+    , sendgrid-v3
     , servant
     , servant-multipart
     , servant-server
@@ -77,12 +85,9 @@ library
   default-language: Haskell2010
 
 executable rfp-service
-  main-is: Main.hs
+  main-is: app/Main.hs
   other-modules:
-      Cli
       Paths_rfp_service
-  hs-source-dirs:
-      app
   ghc-options: -fwarn-unused-imports
   build-depends:
       base >=4.9 && <5.0
@@ -90,8 +95,10 @@ executable rfp-service
     , bytestring
     , dotenv
     , fast-logger
+    , hedis
     , hslogger
     , http-types
+    , hworker
     , monad-logger
     , mtl
     , optparse-applicative
@@ -106,4 +113,29 @@ executable rfp-service
     , wai-cors
     , wai-extra
     , warp
+  default-language: Haskell2010
+
+executable rfp-worker
+  main-is: app/Worker.hs
+  other-modules:
+      Paths_rfp_service
+  ghc-options: -fwarn-unused-imports
+  build-depends:
+      base >=4.9 && <5.0
+    , dotenv
+    , fast-logger
+    , hedis
+    , hslogger
+    , http-types
+    , hworker
+    , mtl
+    , optparse-applicative
+    , persistent ==2.9.2
+    , persistent-postgresql
+    , persistent-template ==2.6.0
+    , rfp-service
+    , text
+    , time
+    , wai-cors
+    , wai-extra
   default-language: Haskell2010

@@ -1,5 +1,5 @@
 name: rfp-service
-version: '0.0.4.2'
+version: '0.0.5.0'
 synopsis: RFPService service
 description: RFPService Service
 category: Web
@@ -9,6 +9,7 @@ copyright: 2020 RFP
 license: MIT
 git: https://www.gitlab.com/reiknirit/rfp-service
 dependencies:
+- base >=4.9 && <5.0
 - persistent ==2.9.2
 - persistent-template ==2.6.0
 - persistent-postgresql
@@ -21,6 +22,9 @@ dependencies:
 - http-types
 - text
 - time
+- hworker
+- hedis
+- optparse-applicative
 library:
   source-dirs: src
   ghc-options: -fwarn-unused-imports
@@ -32,11 +36,13 @@ library:
   - API.Attachment
   - API.Submission
   - API.User
+  - Cli
   - Elasticsearch
   - Utils
   - Logger
+  - Worker.Base
+  - Worker.RFPWorker
   dependencies:
-  - base >=4.9 && <5.0
   - aeson
   - bloodhound
   - bytestring
@@ -61,10 +67,10 @@ library:
   - parser-combinators
   - directory
   - bcrypt
+  - sendgrid-v3
 executables:
   rfp-service:
-    main: Main.hs
-    source-dirs: app
+    main: app/Main.hs
     ghc-options: -fwarn-unused-imports
     dependencies:
     - rfp-service
@@ -72,7 +78,11 @@ executables:
     - wai
     - warp
     - monad-logger
-    - optparse-applicative
     - utf8-string
     - bytestring
     - base64-bytestring
+  rfp-worker:
+    main: app/Worker.hs
+    ghc-options: -fwarn-unused-imports
+    dependencies:
+    - rfp-service

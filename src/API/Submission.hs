@@ -27,6 +27,8 @@ import Servant.Server
 
 import Models
 import Config                       (AppT (..))
+import Worker.Base                  as Worker
+import Worker.RFPWorker             as RFPWorker
 
 type SubmissionAPI = BasicAuth "user-auth" User :> 
                     "submissions" :>
@@ -39,5 +41,9 @@ submissionServer (user :: User) = createSubmission
 createSubmission :: MonadIO m => Submission -> AppT m (Maybe SubmissionJSON)
 createSubmission sub = do
     newSub <- runDb $ insert sub
+
+    -- Add email confirmation job to worker queue
+    liftIO $ Worker.addNewJob (RFPWorker.SendEmail $ submissionEmail sub) "RFPWorker"
+
     json <- subToSubJSON $ Entity newSub sub
     return $ Just json
