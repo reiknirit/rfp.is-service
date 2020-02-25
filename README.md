@@ -95,6 +95,6 @@ Postgres password
 
 Postgres database
 
-SENDGRID_API_KEY
+**SENDGRID_API_KEY**
 
 Sendgrid API Key. This key needs to be present when running the RFPWorker to send out emails. 
