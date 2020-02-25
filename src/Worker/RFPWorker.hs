@@ -35,7 +35,7 @@ defaultSubject = "Thank you for your submission."
 
 defaultContent :: T.Text
 defaultContent = "\
-\We have received your submission for review and will notify you once we have further details. If you have any questions feel free to write us at: <email>. \n\n\
+\We have received your submission for review and will notify you once we have further details. If you have any questions feel free to write us at: ft@ft.is \n\n\
 \About the conference \n\n\
 \The Computer Science Society invites software developers, testers and researchers from around the world to submit abstracts for presentation at the conference Software Correctness 2020 in Reykjavík, Iceland. \n\
     \Presentations and lectures will take place on  Tuesday, Wednesday, and Thursday, August 18.–20. 2020. \n\
