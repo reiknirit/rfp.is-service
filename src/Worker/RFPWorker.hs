@@ -28,7 +28,7 @@ instance ToJSON RFPJob
 instance FromJSON RFPJob
 
 fromEmail :: T.Text
-fromEmail = "rfp@rfp.is"
+fromEmail = "ft@ft.is"
 
 defaultSubject :: T.Text
 defaultSubject = "Thank you for your submission."
